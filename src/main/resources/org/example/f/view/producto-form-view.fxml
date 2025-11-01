@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<VBox spacing="15" style="-fx-padding: 20;"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.f.controles.ProductoFormController"> <Label fx:id="tituloLabel" text="Añadir Nuevo Producto" style="-fx-font-size: 18pt; -fx-font-weight: bold;"/>
 
-</AnchorPane>
+    <GridPane hgap="10" vgap="10">
+        <padding>
+            <Insets bottom="10" left="10" right="10" top="10"/>
+        </padding>
+
+        <Label text="Nombre:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="nombreField" promptText="Martillo de Uña" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Descripción:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <TextField fx:id="descripcionField" promptText="Acero forjado con mango de goma" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+        <Label text="Nº Artículo:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+        <TextField fx:id="articuloField" promptText="HERR001" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+        <Label text="Categoría:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+        <TextField fx:id="categoriaField" promptText="Herramientas" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+        <Label text="Precio (Base):" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+        <TextField fx:id="precioField" promptText="12.50" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+
+        <Label text="Stock Inicial:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+        <TextField fx:id="stockField" promptText="50" GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+        <Label fx:id="errorLabel" style="-fx-text-fill: red;" GridPane.columnIndex="0" GridPane.rowIndex="6" GridPane.columnSpan="2"/>
+    </GridPane>
+
+    <HBox alignment="CENTER" spacing="15">
+        <Button text="Guardar" onAction="#handleGuardarProducto" style="-fx-font-weight: bold;"/>
+        <Button text="Cancelar" onAction="#handleCancelar"/>
+    </HBox>
+
+</VBox>

@@ -1,14 +1,75 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
+<BorderPane prefHeight="650.0" prefWidth="950.0"
+            xmlns:fx="http://javafx.com/fxml/1"
+            xmlns="http://javafx.com/javafx/8.0.171"
+            fx:controller="org.example.f.controles.VentaController">
 
-</AnchorPane>
+    <top>
+        <VBox spacing="10" style="-fx-padding: 15;">
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="Buscar Producto (Art. No./Nombre):" />
+                <TextField fx:id="busquedaProductoField" prefWidth="250" promptText="Ingrese artículo o nombre"/>
+                <Button text="Añadir al Carrito" onAction="#handleAnadirAlCarrito"/>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Label text="Cliente (ID o Nombre):" />
+                <TextField fx:id="busquedaClienteField" prefWidth="250" promptText="Opcional"/>
+                <Button text="Asignar Cliente" onAction="#handleAsignarCliente"/>
+                <Label fx:id="clienteAsignadoLabel" text="Cliente: Anónimo" style="-fx-font-weight: bold;"/>
+            </HBox>
+        </VBox>
+    </top>
+
+    <center>
+        <TableView fx:id="lineasVentaTable" style="-fx-border-color: #ccc; -fx-border-width: 1;">
+            <columns>
+                <TableColumn fx:id="colProductoNombre" prefWidth="300" text="Producto"/>
+                <TableColumn fx:id="colCantidad" prefWidth="80" text="Cant."/>
+                <TableColumn fx:id="colPrecioUnitario" prefWidth="100" text="Precio Unit."/>
+                <TableColumn fx:id="colSubtotal" prefWidth="120" text="Subtotal"/>
+            </columns>
+            <BorderPane.margin>
+                <Insets left="15" right="15"/>
+            </BorderPane.margin>
+        </TableView>
+    </center>
+
+    <bottom>
+        <HBox spacing="20" style="-fx-padding: 15; -fx-background-color: #f4f4f4;">
+            <GridPane hgap="10" vgap="5" HBox.hgrow="ALWAYS">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                </columnConstraints>
+
+                <Label text="SUBTOTAL:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label fx:id="subtotalLabel" text="0.00" style="-fx-font-weight: bold;" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                <Label text="Descuento (0%):" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                <Label fx:id="descuentoLabel" text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                <Label text="TOTAL FINAL:" style="-fx-font-weight: bold; -fx-font-size: 16pt;" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                <Label fx:id="totalFinalLabel" text="0.00" style="-fx-font-weight: bold; -fx-font-size: 16pt; -fx-text-fill: darkred;" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+            </GridPane>
+
+            <VBox spacing="10" alignment="CENTER_RIGHT">
+                <Button text="Aplicar Descuento" onAction="#handleAplicarDescuento"/>
+                <Button text="Registrar Venta (F1)" onAction="#handleRegistrarVenta" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;" prefHeight="30"/>
+                <Button text="Cancelar Venta" onAction="#handleCancelarVenta"/>
+            </VBox>
+        </HBox>
+    </bottom>
+</BorderPane>

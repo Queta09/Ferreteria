@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0" >
+<VBox alignment="CENTER" spacing="20" style="-fx-padding: 20;"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="org.example.f.controles.LoginController">
 
-</AnchorPane>
+    <Label text="Sistema de Ferretería" style="-fx-font-size: 18pt; -fx-font-weight: bold;"/>
+    <Label text="Iniciar Sesión" style="-fx-font-size: 14pt;"/>
+
+    <GridPane alignment="CENTER" hgap="10" vgap="10">
+        <padding>
+            <Insets bottom="10" left="20" right="20" top="10"/>
+        </padding>
+
+        <Label text="Usuario:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="usuarioField" promptText="Nombre de usuario" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label text="Contraseña:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <PasswordField fx:id="passwordField" promptText="Contraseña" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    </GridPane>
+
+    <Button text="Acceder" onAction="#handleLoginButtonAction" defaultButton="true"/>
+    <Label fx:id="mensajeLabel" text="" style="-fx-text-fill: red;"/>
+
+</VBox>
