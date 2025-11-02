@@ -28,6 +28,7 @@
             <Button fx:id="ventasButton" text="2. Ventas" prefWidth="150" />
             <Button fx:id="reportesButton" text="3. Reportes" prefWidth="150" />
             <Button fx:id="proveedoresButton" text="4. Proveedores" prefWidth="150" />
+            <Button fx:id="clientesButton" text="5. Clientes" prefWidth="150" />
         </VBox>
     </left>
 

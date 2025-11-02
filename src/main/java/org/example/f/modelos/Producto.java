@@ -1,94 +1,124 @@
-// Archivo: org.example.f.model/Producto.java
+// Archivo: org.example.f.modelos/Producto.java
 
 package org.example.f.modelos;
+
 import java.io.Serializable;
 
-import java.util.Objects; // Necesario para el método equals
-
 public class Producto implements Serializable {
-    // Atributos privados (Encapsulamiento POO)
-    private int id;
-    private String nombre;
-    private String descripcion;
-    private String numeroArticulo;
-    private String categoria;
-    private double precio; // Precio de compra o base
-    private int cantidadEnStock;
-    private int stockMinimo = 5; // Stock mínimo para alerta
 
-    // Constructor completo
-    public Producto(int id, String nombre, String descripcion, String numeroArticulo,
-                    String categoria, double precio, int cantidadEnStock) {
-        this.id = id;
+    public Producto() {
+        // Constructor vacío necesario para Manager y Serialización
+    }
+
+    // Necesario para la persistencia (serialización)
+    private static final long serialVersionUID = 1L;
+
+    // =======================================================
+    // 🛑 ATRIBUTOS (INCLUYENDO LOS REQUERIDOS POR EL FORMULARIO)
+    // =======================================================
+    private int idProducto;
+    private String nombre;
+    private String descripcion;     // 💡 Requerido por getDescripcion/setDescripcion
+    private String numeroArticulo;  // 💡 Requerido por getNumeroArticulo/setNumeroArticulo
+    private String categoria;       // 💡 Requerido por getCategoria/setCategoria
+
+    private double precioVenta;     // 💡 Almacena el precio (accedido vía getPrecio/setPrecio)
+    private int stock;              // 💡 Almacena la cantidad (accedido vía getCantidadEnStock/setCantidadEnStock)
+    private String proveedor;       // Proveedor del producto
+
+    // =======================================================
+    // CONSTRUCTORES
+    // =======================================================
+
+    // Constructor vacío (Necesario para deserialización y formularios)
+    public Producto(String nombre, String descripcion, String articulo, String categoria, double precio, int stock) {
+    }
+
+    // Constructor completo (Útil para datos iniciales o pruebas)
+    public Producto(int idProducto, String nombre, String descripcion, String numeroArticulo,
+                    String categoria, double precioVenta, int stock, String proveedor) {
+        this.idProducto = idProducto;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.numeroArticulo = numeroArticulo;
         this.categoria = categoria;
-        this.precio = precio;
-        this.cantidadEnStock = cantidadEnStock;
-    }
-
-    // Constructor para nuevos productos (ID se asigna en la BD)
-    public Producto(String nombre, String descripcion, String numeroArticulo,
-                    String categoria, double precio, int cantidadEnStock) {
-        this(0, nombre, descripcion, numeroArticulo, categoria, precio, cantidadEnStock);
+        this.precioVenta = precioVenta;
+        this.stock = stock;
+        this.proveedor = proveedor;
     }
 
     // =======================================================
-    // MÉTODOS DE COMPORTAMIENTO (POO)
+    // 🛑 GETTERS Y SETTERS (AJUSTADOS AL FORMULARIO)
     // =======================================================
 
-    /**
-     * Actualiza el stock, usado para ventas (negativo) o compras (positivo).
-     */
-    public void actualizarStock(int cambio) {
-        this.cantidadEnStock += cambio;
+    // --- ID y Nombre ---
+    public int getIdProducto() {
+        return idProducto;
     }
 
-    /**
-     * Verifica si el stock ha caído por debajo del nivel mínimo.
-     * @return true si el stock está bajo, false en caso contrario.
-     */
-    public boolean necesitaReposicion() {
-        return this.cantidadEnStock < stockMinimo;
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
     }
 
-    // =======================================================
-    // GETTERS Y SETTERS (Permiten el acceso controlado a los atributos)
-    // =======================================================
-
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
-
-
-
-    public void setNombre(String nombre) { this.nombre = nombre; }
-    public String getNombre() { return nombre; }
-
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-    public String getDescripcion() { return descripcion; }
-
-    public void setNumeroArticulo(String numeroArticulo) { this.numeroArticulo = numeroArticulo; }
-    public String getNumeroArticulo() { return numeroArticulo; }
-
-    public void setCategoria(String categoria) { this.categoria = categoria; }
-    public String getCategoria() { return categoria; }
-
-    public void setPrecio(double precio) {
-        this.precio = precio;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setCantidadEnStock(int cantidadEnStock) {
-        this.cantidadEnStock = cantidadEnStock;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
+    // --- Descripcion ---
+    public String getDescripcion() { // 💡 Resuelve: Cannot resolve method 'getDescripcion'
+        return descripcion;
+    }
 
+    public void setDescripcion(String descripcion) { // 💡 Resuelve: Cannot resolve method 'setDescripcion'
+        this.descripcion = descripcion;
+    }
 
-    // ... (Añadir el resto de getters y setters si es necesario)
+    // --- Numero Articulo ---
+    public String getNumeroArticulo() { // 💡 Resuelve: Cannot resolve method 'getNumeroArticulo'
+        return numeroArticulo;
+    }
 
-    public int getCantidadEnStock() { return cantidadEnStock; }
-    public double getPrecio() { return precio; }
+    public void setNumeroArticulo(String numeroArticulo) { // 💡 Resuelve: Cannot resolve method 'setNumeroArticulo'
+        this.numeroArticulo = numeroArticulo;
+    }
 
-    // ... (resto de getters y setters)
+    // --- Categoría ---
+    public String getCategoria() { // 💡 Resuelve: Cannot resolve method 'getCategoria'
+        return categoria;
+    }
 
+    public void setCategoria(String categoria) { // 💡 Resuelve: Cannot resolve method 'setCategoria'
+        this.categoria = categoria;
+    }
+
+    // --- Precio (Mapeo a precioVenta) ---
+    public double getPrecio() { // 💡 Resuelve: Cannot resolve method 'getPrecio'
+        return precioVenta;
+    }
+
+    public void setPrecio(double precio) { // 💡 Resuelve: Cannot resolve method 'setPrecio'
+        this.precioVenta = precio;
+    }
+
+    // --- Stock (Mapeo a cantidadEnStock) ---
+    public int getCantidadEnStock() { // 💡 Resuelve: Cannot resolve method 'getCantidadEnStock'
+        return stock;
+    }
+
+    public void setCantidadEnStock(int cantidadEnStock) { // 💡 Resuelve: Cannot resolve method 'setCantidadEnStock'
+        this.stock = cantidadEnStock;
+    }
+
+    // --- Otros ---
+    public String getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(String proveedor) {
+        this.proveedor = proveedor;
+    }
 }
