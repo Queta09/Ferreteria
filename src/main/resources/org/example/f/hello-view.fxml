@@ -11,14 +11,14 @@
     </padding>
 
     <Label fx:id="welcomeText" />
-    <Button onAction="#onHelloButtonClick" text="ptmmmmmmmmmm" />
+    <Button onAction="#onHelloButtonClick" text="HOLA" />
    <VBox alignment="CENTER" spacing="20.0">
       <padding>
          <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
       </padding>
       <children>
          <Label fx:id="welcomeText1" />
-         <Button onAction="#onHelloButtonClick" text="SEXOOOOOOOOOOOOOOOOOOOOOOO" />
+         <Button onAction="#onHelloButtonClick" text="XD" />
       </children>
    </VBox>
 </VBox>
