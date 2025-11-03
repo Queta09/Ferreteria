@@ -1,35 +1,28 @@
-// Archivo: org.example.f.servicios/InventarioManager.java
-
 package org.example.f.servicios;
 
 import org.example.f.modelos.Producto;
-import java.io.*; // Necesario para la Serialización
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors; // Necesario para la lógica de stock bajo
+import java.util.stream.Collectors;
 
 public class InventarioManager {
 
     private final List<Producto> catalogoProductos;
     private int nextId = 1;
     private static final String FILE_NAME = "inventario.dat";
-    private static final int UMBRAL_STOCK_BAJO = 5; // Constante para las alertas
+    private static final int UMBRAL_STOCK_BAJO = 5;
 
-    // =======================================================
-    // CONSTRUCTOR Y PERSISTENCIA (Serialización)
-    // =======================================================
 
     public InventarioManager() {
         this.catalogoProductos = new ArrayList<>();
-        // Intenta cargar los datos al inicio
         if (!cargarDatos()) {
-            cargarDatosIniciales(); // Si falla, carga datos de prueba
+            cargarDatosIniciales();
             guardarDatos();
         }
     }
 
     private void cargarDatosIniciales() {
-        // Inicialización de productos (Usando constructor vacío y setters)
         Producto p1 = new Producto();
         p1.setNombre("Martillo Clásico");
         p1.setPrecio(15.50);
@@ -41,7 +34,7 @@ public class InventarioManager {
         Producto p2 = new Producto();
         p2.setNombre("Tornillos 1/4 (Caja)");
         p2.setPrecio(5.99);
-        p2.setCantidadEnStock(3); // Stock bajo para prueba
+        p2.setCantidadEnStock(3);
         p2.setNumeroArticulo("F012");
         p2.setCategoria("Fijaciones");
         agregarProductoInterno(p2);
@@ -56,7 +49,6 @@ public class InventarioManager {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
             oos.writeObject(this.catalogoProductos);
             oos.writeInt(this.nextId);
-            // Los productos se guardan en el archivo
         } catch (IOException e) {
             System.err.println("Error al guardar inventario: " + e.getMessage());
         }
@@ -78,16 +70,13 @@ public class InventarioManager {
         }
     }
 
-    // =======================================================
-    // MÉTODOS CRUD
-    // =======================================================
 
     public void agregarProducto(Producto nuevoProducto) {
         if (nuevoProducto.getIdProducto() == 0) {
             nuevoProducto.setIdProducto(nextId++);
         }
         this.catalogoProductos.add(nuevoProducto);
-        guardarDatos(); // Persistir
+        guardarDatos();
     }
 
     public void actualizarProducto(Producto productoActualizado) {
@@ -101,24 +90,17 @@ public class InventarioManager {
 
         if (index != -1) {
             this.catalogoProductos.set(index, productoActualizado);
-            guardarDatos(); // Persistir
+            guardarDatos();
         }
     }
 
     public void eliminarProducto(int idProducto) {
         boolean eliminado = catalogoProductos.removeIf(p -> p.getIdProducto() == idProducto);
         if (eliminado) {
-            guardarDatos(); // Persistir
+            guardarDatos();
         }
     }
 
-    // =======================================================
-    // MÉTODOS DE VENTA Y STOCK
-    // =======================================================
-
-    /**
-     * Actualiza el stock de un producto (usado por TransaccionManager).
-     */
     public void actualizarStockProducto(Producto productoVendido, int cantidadVendida) {
         int idBuscado = productoVendido.getIdProducto();
 
@@ -126,7 +108,7 @@ public class InventarioManager {
             if (p.getIdProducto() == idBuscado) {
                 int nuevoStock = p.getCantidadEnStock() - cantidadVendida;
 
-                if (nuevoStock < 0) { nuevoStock = 0; } // Evita stock negativo
+                if (nuevoStock < 0) { nuevoStock = 0; }
 
                 p.setCantidadEnStock(nuevoStock);
                 guardarDatos();
@@ -135,17 +117,11 @@ public class InventarioManager {
         }
     }
 
-    // =======================================================
-    // MÉTODOS DE CONSULTA Y ALERTAS
-    // =======================================================
 
     public List<Producto> obtenerTodosLosProductos() {
         return new ArrayList<>(catalogoProductos);
     }
 
-    /**
-     * 🛑 Método para obtener la lista de productos con stock bajo (Usado por InventarioController).
-     */
     public List<Producto> obtenerProductosStockBajo() {
         return catalogoProductos.stream()
                 .filter(p -> p.getCantidadEnStock() <= UMBRAL_STOCK_BAJO)

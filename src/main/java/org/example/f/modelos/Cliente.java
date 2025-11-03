@@ -1,5 +1,3 @@
-// Archivo: org.example.f.modelos/Cliente.java
-
 package org.example.f.modelos;
 
 import java.io.Serializable;
@@ -8,18 +6,15 @@ public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // Atributos
     private int idCliente;
     private String nombre;
     private String telefono;
-    private String email; // ¡Asegúrate de incluir 'email' si tu ClienteController lo usa!
+    private String email;
     private String direccion;
 
-    // 🛑 CONSTRUCTOR VACÍO (Necesario para Manager, Serialización y formularios)
     public Cliente() {
     }
 
-    // Constructor completo (opcional)
     public Cliente(int idCliente, String nombre, String telefono, String email, String direccion) {
         this.idCliente = idCliente;
         this.nombre = nombre;
@@ -27,8 +22,6 @@ public class Cliente implements Serializable {
         this.email = email;
         this.direccion = direccion;
     }
-
-    // --- Getters y Setters ---
 
     public int getIdCliente() {
         return idCliente;

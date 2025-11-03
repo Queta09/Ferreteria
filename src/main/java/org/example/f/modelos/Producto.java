@@ -1,5 +1,3 @@
-// Archivo: org.example.f.modelos/Producto.java
-
 package org.example.f.modelos;
 
 import java.io.Serializable;
@@ -7,34 +5,24 @@ import java.io.Serializable;
 public class Producto implements Serializable {
 
     public Producto() {
-        // Constructor vacío necesario para Manager y Serialización
     }
 
-    // Necesario para la persistencia (serialización)
     private static final long serialVersionUID = 1L;
 
-    // =======================================================
-    // 🛑 ATRIBUTOS (INCLUYENDO LOS REQUERIDOS POR EL FORMULARIO)
-    // =======================================================
     private int idProducto;
     private String nombre;
-    private String descripcion;     // 💡 Requerido por getDescripcion/setDescripcion
-    private String numeroArticulo;  // 💡 Requerido por getNumeroArticulo/setNumeroArticulo
-    private String categoria;       // 💡 Requerido por getCategoria/setCategoria
+    private String descripcion;
+    private String numeroArticulo;
+    private String categoria;
 
-    private double precioVenta;     // 💡 Almacena el precio (accedido vía getPrecio/setPrecio)
-    private int stock;              // 💡 Almacena la cantidad (accedido vía getCantidadEnStock/setCantidadEnStock)
-    private String proveedor;       // Proveedor del producto
+    private double precioVenta;
+    private int stock;
+    private String proveedor;
 
-    // =======================================================
-    // CONSTRUCTORES
-    // =======================================================
 
-    // Constructor vacío (Necesario para deserialización y formularios)
     public Producto(String nombre, String descripcion, String articulo, String categoria, double precio, int stock) {
     }
 
-    // Constructor completo (Útil para datos iniciales o pruebas)
     public Producto(int idProducto, String nombre, String descripcion, String numeroArticulo,
                     String categoria, double precioVenta, int stock, String proveedor) {
         this.idProducto = idProducto;
@@ -47,11 +35,7 @@ public class Producto implements Serializable {
         this.proveedor = proveedor;
     }
 
-    // =======================================================
-    // 🛑 GETTERS Y SETTERS (AJUSTADOS AL FORMULARIO)
-    // =======================================================
 
-    // --- ID y Nombre ---
     public int getIdProducto() {
         return idProducto;
     }
@@ -68,52 +52,49 @@ public class Producto implements Serializable {
         this.nombre = nombre;
     }
 
-    // --- Descripcion ---
-    public String getDescripcion() { // 💡 Resuelve: Cannot resolve method 'getDescripcion'
+
+    public String getDescripcion() {
         return descripcion;
     }
 
-    public void setDescripcion(String descripcion) { // 💡 Resuelve: Cannot resolve method 'setDescripcion'
+    public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
 
-    // --- Numero Articulo ---
-    public String getNumeroArticulo() { // 💡 Resuelve: Cannot resolve method 'getNumeroArticulo'
+
+    public String getNumeroArticulo() {
         return numeroArticulo;
     }
 
-    public void setNumeroArticulo(String numeroArticulo) { // 💡 Resuelve: Cannot resolve method 'setNumeroArticulo'
+    public void setNumeroArticulo(String numeroArticulo) {
         this.numeroArticulo = numeroArticulo;
     }
 
-    // --- Categoría ---
-    public String getCategoria() { // 💡 Resuelve: Cannot resolve method 'getCategoria'
+
+    public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) { // 💡 Resuelve: Cannot resolve method 'setCategoria'
+    public void setCategoria(String categoria) {
         this.categoria = categoria;
     }
 
-    // --- Precio (Mapeo a precioVenta) ---
-    public double getPrecio() { // 💡 Resuelve: Cannot resolve method 'getPrecio'
+    public double getPrecio() {
         return precioVenta;
     }
 
-    public void setPrecio(double precio) { // 💡 Resuelve: Cannot resolve method 'setPrecio'
+    public void setPrecio(double precio) {
         this.precioVenta = precio;
     }
 
-    // --- Stock (Mapeo a cantidadEnStock) ---
-    public int getCantidadEnStock() { // 💡 Resuelve: Cannot resolve method 'getCantidadEnStock'
+    public int getCantidadEnStock() {
         return stock;
     }
 
-    public void setCantidadEnStock(int cantidadEnStock) { // 💡 Resuelve: Cannot resolve method 'setCantidadEnStock'
+    public void setCantidadEnStock(int cantidadEnStock) {
         this.stock = cantidadEnStock;
     }
 
-    // --- Otros ---
     public String getProveedor() {
         return proveedor;
     }

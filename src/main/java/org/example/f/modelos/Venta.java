@@ -1,5 +1,3 @@
-// Archivo: org.example.f.modelos/Venta.java
-
 package org.example.f.modelos;
 
 import java.io.Serializable;
@@ -11,23 +9,20 @@ public class Venta implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    // Atributos
     private int idVenta;
     private Cliente cliente;
     private LocalDateTime fechaHora;
-    private List<LineaVenta> itemsVendidos = new ArrayList<>(); // Lista única y crucial
+    private List<LineaVenta> itemsVendidos = new ArrayList<>();
     private double subtotal;
     private double totalDescuento;
     private double totalFinal;
     private Descuento descuentoAplicado;
 
-    // 🛑 CONSTRUCTOR VACÍO (Obligatorio)
     public Venta() {
         this.descuentoAplicado = null;
         this.totalDescuento = 0.0;
     }
 
-    // Constructor completo
     public Venta(Cliente cliente, List<LineaVenta> itemsVendidos) {
         this.cliente = cliente;
         this.itemsVendidos = itemsVendidos;
@@ -36,9 +31,6 @@ public class Venta implements Serializable {
         calcularTotales();
     }
 
-    // =======================================================
-    // MÉTODOS DE COMPORTAMIENTO
-    // =======================================================
 
     public void aplicarDescuento(Descuento descuento) {
         this.descuentoAplicado = descuento;
@@ -63,10 +55,6 @@ public class Venta implements Serializable {
 
         this.totalFinal = this.subtotal - this.totalDescuento;
     }
-
-    // =======================================================
-    // GETTERS Y SETTERS
-    // =======================================================
 
     public int getIdVenta() { return idVenta; }
     public void setIdVenta(int idVenta) { this.idVenta = idVenta; }

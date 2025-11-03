@@ -1,5 +1,3 @@
-// Archivo: org.example.f.controles/VentaController.java
-
 package org.example.f.controles;
 
 import javafx.fxml.FXML;
@@ -29,16 +27,13 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.List;
 
-// El controlador implementa el Listener para recibir el descuento
 public class VentaController implements DescuentoAplicadoListener {
 
-    // Managers inyectados (Sin inicialización local)
     private InventarioManager inventarioManager;
     private ClienteManager clienteManager;
     private TransaccionManager transaccionManager;
     private DescuentoManager descuentoManager;
 
-    // FXML Elements
     @FXML private TextField busquedaProductoField;
     @FXML private TextField busquedaClienteField;
     @FXML private Label clienteAsignadoLabel;
@@ -51,14 +46,13 @@ public class VentaController implements DescuentoAplicadoListener {
     @FXML private TableColumn<LineaVenta, Double> colPrecioUnitario;
     @FXML private TableColumn<LineaVenta, Double> colSubtotal;
 
-    // Método de Inyección POO
     public void setManagers(InventarioManager im, ClienteManager cm, TransaccionManager tm, DescuentoManager dm) {
         this.inventarioManager = im;
         this.clienteManager = cm;
         this.transaccionManager = tm;
         this.descuentoManager = dm;
 
-        actualizarUICompleta(); // Se llama después de que todos los managers son inyectados
+        actualizarUICompleta();
     }
 
     @FXML
@@ -70,7 +64,6 @@ public class VentaController implements DescuentoAplicadoListener {
                 new ReadOnlyStringWrapper(cellData.getValue().getProducto().getNombre())
         );
 
-        // Permite la edición de la columna Cantidad
         lineasVentaTable.setEditable(true);
         colCantidad.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         colCantidad.setEditable(true);
@@ -81,7 +74,6 @@ public class VentaController implements DescuentoAplicadoListener {
 
             if (nuevaCantidad > 0) {
                 linea.setCantidad(nuevaCantidad);
-                // getItemsVendidos() ahora está seguro
                 transaccionManager.getVentaEnCurso().calcularTotales();
             } else {
                 transaccionManager.getVentaEnCurso().getItemsVendidos().remove(linea);
@@ -92,9 +84,6 @@ public class VentaController implements DescuentoAplicadoListener {
         });
     }
 
-    // =======================================================
-    // MÉTODOS DE ACCIÓN COMPLETOS
-    // =======================================================
 
     @FXML
     private void handleAnadirAlCarrito() {
@@ -134,10 +123,10 @@ public class VentaController implements DescuentoAplicadoListener {
         Venta venta = transaccionManager.getVentaEnCurso();
 
         if (busqueda.isEmpty()) {
-            venta.setCliente(null); // 🛑 setCliente() ahora existe en Venta.java
+            venta.setCliente(null);
         } else {
             Optional<Cliente> clienteEncontrado = clienteManager.buscarCliente(busqueda);
-            venta.setCliente(clienteEncontrado.orElse(null)); // 🛑 setCliente() ahora existe
+            venta.setCliente(clienteEncontrado.orElse(null));
         }
         actualizarUICompleta();
     }
@@ -155,7 +144,6 @@ public class VentaController implements DescuentoAplicadoListener {
         System.out.println("Venta cancelada y carrito vaciado.");
     }
 
-    // 💡 MÉTODO COMPLETO: Abrir la ventana modal de descuentos
     @FXML
     private void handleAplicarDescuento() {
         if (transaccionManager.getVentaEnCurso().getItemsVendidos().isEmpty()) {
@@ -169,7 +157,6 @@ public class VentaController implements DescuentoAplicadoListener {
 
             DescuentoController descuentoController = loader.getController();
 
-            // INYECCIÓN: Pasamos el DescuentoManager y A SÍ MISMO (this) como Listener
             descuentoController.initData(this.descuentoManager, this);
 
             Stage stage = new Stage();
@@ -185,10 +172,6 @@ public class VentaController implements DescuentoAplicadoListener {
     }
 
 
-    // =======================================================
-    // 🛑 IMPLEMENTACIÓN DEL CALLBACK (Resuelve el error de interfaz)
-    // =======================================================
-
     @Override
     public void onDescuentoAplicado(Descuento descuento) {
         transaccionManager.getVentaEnCurso().aplicarDescuento(descuento);
@@ -203,9 +186,6 @@ public class VentaController implements DescuentoAplicadoListener {
         System.out.println("Descuento removido.");
     }
 
-    // =======================================================
-    // AUXILIARES
-    // =======================================================
 
     private void actualizarTotalesUI() {
         Venta venta = transaccionManager.getVentaEnCurso();

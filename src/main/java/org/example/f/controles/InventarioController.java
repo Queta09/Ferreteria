@@ -1,5 +1,3 @@
-// Archivo: org.example.f.controles/InventarioController.java
-
 package org.example.f.controles;
 
 import javafx.collections.FXCollections;
@@ -21,25 +19,20 @@ import org.example.f.modelos.Producto;
 import org.example.f.servicios.InventarioManager;
 import java.io.IOException;
 import java.util.Optional;
-import java.util.List; // Necesario para obtener la lista de alertas
+import java.util.List;
 
 public class InventarioController {
 
-    // 🛑 REQUERIDO: Variable para inyección del Manager
     private InventarioManager inventarioManager;
 
-    // Elementos FXML de la tabla (NOMBRES CORREGIDOS PARA COINCIDIR CON FXML)
-    // El @FXML asegura la inyección de la vista (Resuelve el NPE en initialize)
-    @FXML private TableView<Producto> productosTable; // fx:id="productosTable"
-    @FXML private TableColumn<Producto, String> colNombre;
-    @FXML private TableColumn<Producto, String> colArticulo; // fx:id="colArticulo"
-    @FXML private TableColumn<Producto, String> colCategoria; // fx:id="colCategoria"
-    @FXML private TableColumn<Producto, Double> colPrecio;
-    @FXML private TableColumn<Producto, Integer> colStock; // fx:id="colStock"
 
-    // =======================================================
-    // INYECCIÓN Y CARGA INICIAL
-    // =======================================================
+    @FXML private TableView<Producto> productosTable;
+    @FXML private TableColumn<Producto, String> colNombre;
+    @FXML private TableColumn<Producto, String> colArticulo;
+    @FXML private TableColumn<Producto, String> colCategoria;
+    @FXML private TableColumn<Producto, Double> colPrecio;
+    @FXML private TableColumn<Producto, Integer> colStock;
+
     public void setManagers(InventarioManager manager) {
         this.inventarioManager = manager;
         cargarDatosInventario();
@@ -47,14 +40,12 @@ public class InventarioController {
 
     @FXML
     public void initialize() {
-        // Enlazar columnas con las propiedades del modelo Producto
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colArticulo.setCellValueFactory(new PropertyValueFactory<>("numeroArticulo"));
         colCategoria.setCellValueFactory(new PropertyValueFactory<>("categoria"));
         colPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
         colStock.setCellValueFactory(new PropertyValueFactory<>("cantidadEnStock"));
 
-        // Listener para doble clic
         productosTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && productosTable.getSelectionModel().getSelectedItem() != null) {
                 handleEditarProducto();
@@ -72,9 +63,6 @@ public class InventarioController {
         }
     }
 
-    // =======================================================
-    // MÉTODOS DE ACCIÓN (CRUD)
-    // =======================================================
 
     @FXML
     private void handleAnadirProducto() {
@@ -96,7 +84,6 @@ public class InventarioController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/f/view/producto-form-view.fxml"));
             Parent root = loader.load();
 
-            // 🛑 NOTA: Asume que ProductoFormController existe y tiene sus setters
             ProductoFormController controller = loader.getController();
 
             controller.setInventarioManager(this.inventarioManager);
@@ -137,9 +124,6 @@ public class InventarioController {
         }
     }
 
-    // =======================================================
-    // MÉTODOS DE ALERTA Y AUXILIAR
-    // =======================================================
 
     private Optional<ButtonType> mostrarAlerta(Alert.AlertType type, String titulo, String contenido) {
         Alert alert = new Alert(type);
@@ -149,21 +133,15 @@ public class InventarioController {
         return alert.showAndWait();
     }
 
-    /**
-     * 🛑 LÓGICA DE ALERTAS: Muestra los productos con stock bajo.
-     * Este método es llamado por el botón "Ver Alertas" en el FXML.
-     */
     @FXML
     public void handleVerAlertas(ActionEvent actionEvent) {
         if (inventarioManager == null) return;
 
-        // 1. Obtener la lista de productos con stock bajo (asumo que InventarioManager tiene este método)
         List<Producto> alertas = inventarioManager.obtenerProductosStockBajo();
 
         if (alertas.isEmpty()) {
             mostrarAlerta(Alert.AlertType.INFORMATION, "Alerta de Inventario", "✅ Todos los productos tienen suficiente stock.");
         } else {
-            // 2. Construir el mensaje
             StringBuilder mensaje = new StringBuilder("⚠️ Productos con stock bajo:\n\n");
 
             for (Producto p : alertas) {
@@ -171,12 +149,10 @@ public class InventarioController {
                         .append(" (Stock: ").append(p.getCantidadEnStock()).append(")\n");
             }
 
-            // 3. Mostrar la alerta
             mostrarAlerta(Alert.AlertType.WARNING, "Alerta de Reposición", mensaje.toString());
         }
     }
 
-    // 🛑 Método que resuelve el error anterior de FXMLLoader.LoadException (Si el FXML llama a este)
     @FXML
     public void handleAlertaInventario() {
         handleVerAlertas(null); // Simplemente llama al método principal de alertas

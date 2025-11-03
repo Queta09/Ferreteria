@@ -1,5 +1,3 @@
-// Archivo: org.example.f.controles/MainSystemController.java
-
 package org.example.f.controles;
 
 import javafx.fxml.FXML;
@@ -16,7 +14,6 @@ import java.io.IOException;
 
 public class MainSystemController {
 
-    // ... (Atributos de Managers y FXML) ...
     private final InventarioManager inventarioManager;
     private final ClienteManager clienteManager;
     private final TransaccionManager transaccionManager;
@@ -30,7 +27,6 @@ public class MainSystemController {
     @FXML private Button proveedoresButton;
     @FXML private Button clientesButton;
 
-    // ... (Constructor y initialize se mantienen iguales) ...
     public MainSystemController() {
         this.inventarioManager = new InventarioManager();
         this.clienteManager = new ClienteManager();
@@ -55,9 +51,6 @@ public class MainSystemController {
         usuarioLabel.setText("Bienvenido, " + usuario.toUpperCase());
     }
 
-    /**
-     * Método que carga las vistas FXML e inyecta las dependencias necesarias.
-     */
     private void cargarModulo(String modulo) {
         String fxmlPath = "/org/example/f/view/" + modulo + "-view.fxml";
 
@@ -67,14 +60,11 @@ public class MainSystemController {
 
             Object controller = loader.getController();
 
-            // 💡 Paso 3: INYECCIÓN DE DEPENDENCIAS A CADA CONTROLADOR
 
             if ("inventario".equals(modulo)) {
-                // 🛑 INYECCIÓN A INVENTARIOCONTROLLER
                 ((InventarioController) controller).setManagers(inventarioManager);
 
             } else if ("ventas".equals(modulo)) {
-                // INYECCIÓN A VENTACONTROLLER
                 ((VentaController) controller).setManagers(
                         inventarioManager,
                         clienteManager,
@@ -83,7 +73,6 @@ public class MainSystemController {
                 );
 
             } else if ("clientes".equals(modulo)) {
-                // INYECCIÓN A CLIENTECONTROLLER
                 ((ClienteController) controller).setManagers(clienteManager);
 
             } else {
@@ -94,13 +83,11 @@ public class MainSystemController {
             System.out.println("Módulo '" + modulo.toUpperCase() + "' cargado exitosamente.");
 
         } catch (IOException e) {
-            // 🛑 LA CAUSA MÁS PROBABLE ES QUE AQUÍ FALLA PORQUE EL FXML NO SE ENCUENTRA.
             System.err.println("Error al cargar la vista FXML para el módulo: " + modulo + ". Revise la ruta y el nombre del archivo.");
             e.printStackTrace();
             Label errorLabel = new Label("ERROR: No se pudo cargar el módulo " + modulo.toUpperCase() + ". Revise el archivo FXML.");
             mainBorderPane.setCenter(errorLabel);
         } catch (ClassCastException e) {
-            // Este error ocurre si un FXML está apuntando a un controlador incorrecto.
             System.err.println("Error de casting: El controlador de " + modulo + " no coincide con la clase esperada.");
             e.printStackTrace();
             Label errorLabel = new Label("ERROR INTERNO: El FXML de " + modulo.toUpperCase() + " tiene el controlador incorrecto.");
@@ -108,7 +95,6 @@ public class MainSystemController {
         }
     }
 
-    // Getter para que FerreteriaApp pueda acceder al manager y guardar datos.
     public InventarioManager getInventarioManager() {
         return this.inventarioManager;
     }

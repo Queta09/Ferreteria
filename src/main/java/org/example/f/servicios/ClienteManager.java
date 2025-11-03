@@ -1,9 +1,7 @@
-// Archivo: org.example.f.servicios/ClienteManager.java
-
 package org.example.f.servicios;
 
 import org.example.f.modelos.Cliente;
-import java.io.*; // 💡 Importación esencial para la serialización
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,21 +10,17 @@ public class ClienteManager {
 
     private final List<Cliente> catalogoClientes;
     private int nextId = 1;
-    private static final String FILE_NAME = "clientes.dat"; // Nombre del archivo de persistencia
+    private static final String FILE_NAME = "clientes.dat";
 
     public ClienteManager() {
         this.catalogoClientes = new ArrayList<>();
 
-        // 🛑 CORRECCIÓN 1: Intentar cargar datos al inicio del constructor
         if (!cargarDatos()) {
-            cargarDatosIniciales(); // Si el archivo no existe o falla la carga, usa datos de prueba
-            guardarDatos(); // Guarda los datos iniciales para crear el archivo por primera vez
+            cargarDatosIniciales();
+            guardarDatos();
         }
     }
 
-    /**
-     * Carga datos iniciales para la simulación (solo si no se cargan del archivo).
-     */
     private void cargarDatosIniciales() {
         System.out.println("Cargando datos iniciales de prueba...");
 
@@ -45,34 +39,19 @@ public class ClienteManager {
         registrarClienteInterno(c2);
     }
 
-    /**
-     * Método interno para registrar un cliente con ID autoincrementable.
-     */
     private void registrarClienteInterno(Cliente cliente) {
-        // Usado solo al cargar datos iniciales o internos
         cliente.setIdCliente(nextId++);
         this.catalogoClientes.add(cliente);
     }
 
-    // =======================================================
-    // MÉTODOS CRUD REQUERIDOS POR CONTROLADORES
-    // =======================================================
-
-    /**
-     * Guarda un nuevo cliente (creación).
-     */
     public void guardarCliente(Cliente cliente) {
         cliente.setIdCliente(nextId++);
         this.catalogoClientes.add(cliente);
         System.out.println("Cliente CREADO y registrado: " + cliente.getNombre() + " (ID: " + cliente.getIdCliente() + ")");
 
-        // 🛑 CORRECCIÓN 2: Persistir el cambio al archivo
         guardarDatos();
     }
 
-    /**
-     * Actualiza un cliente existente.
-     */
     public void actualizarCliente(Cliente clienteActualizado) {
         int index = findClienteIndexById(clienteActualizado.getIdCliente());
 
@@ -80,36 +59,24 @@ public class ClienteManager {
             this.catalogoClientes.set(index, clienteActualizado);
             System.out.println("Cliente ACTUALIZADO: " + clienteActualizado.getNombre() + " (ID: " + clienteActualizado.getIdCliente() + ")");
 
-            // 🛑 CORRECCIÓN 3: Persistir el cambio al archivo
             guardarDatos();
         } else {
             System.out.println("Error: No se puede actualizar. Cliente ID " + clienteActualizado.getIdCliente() + " no encontrado.");
         }
     }
 
-    /**
-     * Elimina un cliente por su ID.
-     */
     public void eliminarCliente(int idCliente) {
         boolean eliminado = this.catalogoClientes.removeIf(c -> c.getIdCliente() == idCliente);
 
         if (eliminado) {
             System.out.println("Cliente ID " + idCliente + " eliminado.");
 
-            // 🛑 CORRECCIÓN 4: Persistir el cambio al archivo
             guardarDatos();
         } else {
             System.out.println("Cliente ID " + idCliente + " no encontrado para eliminar.");
         }
     }
 
-    // =======================================================
-    // MÉTODOS DE PERSISTENCIA (SERIALIZACIÓN)
-    // =======================================================
-
-    /**
-     * 💡 Guarda la lista completa y el nextId en un archivo.
-     */
     private void guardarDatos() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
             oos.writeObject(this.catalogoClientes);
@@ -120,9 +87,6 @@ public class ClienteManager {
         }
     }
 
-    /**
-     * 💡 Carga la lista completa y el nextId desde un archivo.
-     */
     private boolean cargarDatos() {
         File file = new File(FILE_NAME);
         if (!file.exists()) {
@@ -143,10 +107,6 @@ public class ClienteManager {
     }
 
 
-    // =======================================================
-    // MÉTODOS DE CONSULTA Y UTILIDAD (Se mantienen sin cambios)
-    // =======================================================
-
     public List<Cliente> obtenerTodosLosClientes() {
         return new ArrayList<>(catalogoClientes);
     }
@@ -161,7 +121,6 @@ public class ClienteManager {
     }
 
     public Optional<Cliente> buscarCliente(String busqueda) {
-        // ... (Tu lógica de búsqueda) ...
         try {
             int id = Integer.parseInt(busqueda.trim());
             return catalogoClientes.stream().filter(c -> c.getIdCliente() == id).findFirst();
