@@ -3,6 +3,7 @@ module org.example.f {
     // 1. Dependencias externas (Módulos de Framework)
     requires javafx.controls;
     requires javafx.fxml;
+    requires org.junit.jupiter.api;
     requires javafx.base; // Necesario para la reflexión de PropertyValueFactory
 
     // 2. Apertura/Exportación para JavaFX y Reflection (Solución clave)
@@ -16,6 +17,7 @@ module org.example.f {
 
     // Esto permite al lanzador de JavaFX acceder y crear tu clase FerreteriaApp.
     opens org.example.f to javafx.graphics;
+    opens org.example.f.servicios to org.junit.platform.commons, org.junit.jupiter.api;
 
     // 🛑 [OPCIONAL] Si necesitas acceder a los Managers/Servicios desde fuera del módulo (poco común)
     exports org.example.f.servicios;
